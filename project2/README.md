@@ -1,21 +1,11 @@
-# Project 2: EC2 + Nginx Demo
+# AWS Cloud Portfolio
 
-## Overview
-This project demonstrates how to deploy a simple web server on AWS using an EC2 instance with **Nginx** installed.  
+This repository showcases my AWS cloud projects demonstrating secure, resilient, high-performing, and cost-optimized architectures.
 
-- **Secure**: Security Group configured to allow only HTTP (port 80) and SSH (port 22)  
-- **Resilient**: EC2 instance running in a public subnet with Elastic IP (can easily be scaled or replaced)  
-- **High-Performing**: Lightweight Nginx server serving static content  
-- **Cost-Optimized**: Uses t2.micro (Free Tier eligible)  
+## Projects
 
-The result is a simple static webpage (`index.html`) that introduces me as an aspiring Cloud Architect.
+- [Project 1: AWS E-commerce Architecture](./project1/README.md)  
+  A 3-tier AWS architecture with security, resilience, high performance, and cost optimization. Includes an architecture diagram (Mermaid).
 
----
-
-## Architecture Diagram (Mermaid)
-
-```mermaid
-flowchart TB
-    U[Client Browser] -->|HTTP Request| Nginx[(EC2 + Nginx)]
-    Nginx -->|Serve index.html| U
-
+- [Project 2: EC2 + Nginx Demo](./project2/README.md)  
+  A simple EC2 deployment running Nginx to serve a custom static webpage. Includes setup steps and architecture diagram.
