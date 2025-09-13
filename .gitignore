@@ -1,0 +1,7 @@
+# macOS
+.DS_Store
+# node/python cache (if any)
+node_modules/
+__pycache__/
+dist/
+build/
