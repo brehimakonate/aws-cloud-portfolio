@@ -14,12 +14,19 @@ This project demonstrates a serverless architecture using AWS managed services:
 ## Architecture Diagram (Mermaid)
 
 
-flowchart TD
-  U[User] --> CF[CloudFront]
-  CF --> S3[S3 Static Website]
-  S3 -.calls API./.-> API[API Gateway]
+flowchart LR
+  U[User Browser] --> CF[CloudFront]
+  WAF[AWS WAF] -. attached .-> CF
+  CF -->|/static| S3[S3 for static assets]
+  CF -. access logs .-> LGBKT[(S3 log bucket)]
+
+  %% API path
+  U -->|/api/*| API[API Gateway]
   API --> L[Lambda]
-  L --> DB[DynamoDB]
-  U --> Auth[Cognito]
-  L --> CW[CloudWatch Logs]
+  L --> DB[(DynamoDB)]
+  L -. logs .-> CW[(CloudWatch Logs)]
+
+  CT[CloudTrail] -. audit logs .-> LGBKT
+  COG[(Cognito)] -. optional auth .- U
+
 
