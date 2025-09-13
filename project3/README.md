@@ -24,13 +24,6 @@ This project demonstrates how to host a static website on AWS using S3 (with opt
 
 ## Architecture Diagram (Mermaid)
 
-```mermaid
-flowchart TB
-    U[User Browser] -->|HTTPS Request| CF[CloudFront]
-    CF -->|Origin| S3[S3 Static Website Bucket]
-    U -->|HTTP fallback| S3
-
-
 
 # Project 3: AWS S3 Static Website Hosting
 git add project3/README.md
