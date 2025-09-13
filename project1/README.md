@@ -1,67 +1,75 @@
-# Project 1: AWS E-commerce Architecture
+# Project 1 – Static Web App on EC2
 
-## Overview
-This project demonstrates a **3-tier AWS architecture** designed to be:
-- **Secure** (AWS WAF, private subnets, IAM, CloudTrail)
-- **Resilient** (RDS Multi-AZ, Auto Scaling, ALB health checks)
-- **High-Performing** (CloudFront, ALB, caching)
-- **Cost-Optimized** (S3 lifecycle rules, single NAT, right-sizing)
+This project deploys a static website (`index.html`) on a single EC2 instance with Nginx.
 
-This type of architecture could support an e-commerce or business web application.
+## Architecture Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+    Client -->|HTTP| EC2[(EC2 Instance)]
+    EC2 -->|Serve static page| Client
+
+
+**Project 2**
+```bash
+cat > project2/README.md <<'EOF'
+# Project 2 – Load Balanced Web App
+
+This project adds a load balancer to distribute traffic.
+
+## Architecture Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+    Client --> ALB[(Application Load Balancer)]
+    ALB --> EC2A[(EC2 Instance A)]
+    ALB --> EC2B[(EC2 Instance B)]
+    EC2A --> DB[(Database)]
+    EC2B --> DB
+
+
+**Project 3**
+```bash
+cat > project3/README.md <<'EOF'
+# Project 3 – Auto Scaling Group
+
+This project introduces auto scaling to handle variable load.
+
+## Architecture Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+    Client --> ALB[(Application Load Balancer)]
+    ALB --> ASG[(Auto Scaling Group)]
+    ASG --> EC2A[(EC2 Instance 1)]
+    ASG --> EC2B[(EC2 Instance 2)]
+    EC2A --> DB[(Database)]
+    EC2B --> DB
+
+
+**Project 4**
+```bash
+cat > project4/README.md <<'EOF'
+# Project 4 – Highly Available Multi-AZ Architecture
+
+This project builds a production-grade architecture across multiple Availability Zones.
+
+## Architecture Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+    Client --> Route53[(Route 53 DNS)]
+    Route53 --> ALB1[(ALB - AZ1)]
+    Route53 --> ALB2[(ALB - AZ2)]
+    ALB1 --> EC2A[(EC2 in AZ1)]
+    ALB2 --> EC2B[(EC2 in AZ2)]
+    EC2A --> RDS[(RDS Primary)]
+    EC2B --> RDS[(RDS Standby)]
+
 
 ---
 
-## Architecture Diagram (Mermaid)
-The diagram below is written in Mermaid code. GitHub automatically renders it when viewed in a README:
+### 🔹 Step 2. Stage all files
+```bash
+git add project1/README.md project2/README.md project3/README.md project4/README.md project4/site/index.html
 
-```mermaid
-flowchart TB
-  %% Clients
-  U[Users]
-
-  %% Edge + Security
-  CF[Amazon CloudFront]
-  WAF[AWS WAF attached to CloudFront]
-
-  %% Static content
-  S3[S3 Bucket for static assets]
-
-  %% Logging / Audit
-  S3L[S3 Bucket for logs]
-  CT[AWS CloudTrail]
-
-  %% VPC
-  subgraph VPC[VPC 10.0.0.0/16]
-    direction LR
-
-    subgraph Public[Public subnets]
-      IGW[Internet Gateway]
-      NAT[NAT Gateway]
-      ALB[Application Load Balancer]
-    end
-
-    subgraph App[Private app subnets]
-      ASG[EC2 Auto Scaling Group]
-    end
-
-    subgraph DB[Private DB subnets]
-      RDS[RDS Multi AZ]
-    end
-  end
-
-  %% Traffic flow
-  U --> CF
-  WAF -. attached .- CF
-  CF -->|/static| S3
-  CF -->|/api/*| ALB
-  ALB --> ASG
-  ASG --> RDS
-
-  %% Egress & internet
-  NAT --> IGW
-  ALB --> IGW
-
-  %% Logs / audit
-  CF -. access logs .-> S3L
-  ALB -. access logs .-> S3L
-  CT -. audit logs .-> S3L
