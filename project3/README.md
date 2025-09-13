@@ -24,8 +24,6 @@ This project demonstrates how to host a static website on AWS using S3 (with opt
 
 ## Architecture Diagram (Mermaid)
 
-## Architecture Diagram (Mermaid)
-
 ```mermaid
 flowchart TB
     U[User Browser] -->|HTTPS Request| CF[CloudFront]
