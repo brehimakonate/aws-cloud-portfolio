@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project 4 - Serverless Web App</title>
+</head>
+<body>
+    <h1>Welcome to Project 4 🚀</h1>
+    <p>This is a static site hosted on <strong>AWS S3 + CloudFront</strong>.</p>
+    <button onclick="callApi()">Say Hello</button>
+
+    <p id="response"></p>
+
+    <script>
+        async function callApi() {
+            try {
+                const res = await fetch("https://abcd1234.execute-api.us-east-1.amazonaws.com/hello");
+                const data = await res.json();
+                document.getElementById("response").innerText = data.message;
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
+
