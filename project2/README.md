@@ -14,12 +14,19 @@ The result is a simple static webpage (`index.html`) that introduces me as an as
 
 ## Architecture Diagram (Mermaid)
 
-\```mermaid
-flowchart TB
-    U[Client Browser] -->|HTTP Request| Nginx[(EC2 + Nginx)]
-    Nginx -->|Serve index.html| U
-\```
+flowchart LR
+  U[User Browser]
 
+  subgraph AWS
+    EC2[(EC2: Amazon Linux 2<br/>Nginx)]
+    SG((Security Group))
+    EIP[(Elastic IP)]
+  end
+
+  U -->|HTTP :80| EC2
+  U -.->|SSH :22 (admin only)| EC2
+  SG --- EC2
+  EIP -. optional .-> EC2
 ---
 
 ## Steps
